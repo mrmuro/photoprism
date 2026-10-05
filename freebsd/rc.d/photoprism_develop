@@ -1,0 +1,44 @@
+#!/bin/sh
+#
+# PROVIDE: photoprism_develop
+# REQUIRE: LOGIN
+#
+# PhotoPrism built from the develop branch with -tags notensorflow.
+# Reuses the photoprism_* settings of the photoprism package, so it runs on the
+# same storage, originals and import paths. Only the binary and assets differ.
+#
+# Add to /etc/rc.conf:
+# photoprism_enable="NO"
+# photoprism_develop_enable="YES"
+# Optional overrides:
+# photoprism_develop_bin="/usr/local/bin/photoprism-develop"  (or photoprism-plus)
+# photoprism_develop_assetspath="/var/db/photoprism/assets-develop"
+# photoprism_develop_storagepath  (defaults to photoprism_storagepath)
+# photoprism_develop_face_model="sface"
+# photoprism_develop_args="<set as needed>"
+
+. /etc/rc.subr
+
+name="photoprism_develop"
+rcvar=photoprism_develop_enable
+
+load_rc_config $name
+
+: ${photoprism_develop_enable="NO"}
+: ${photoprism_develop_bin="/usr/local/bin/photoprism-develop"}
+: ${photoprism_develop_assetspath="/var/db/photoprism/assets-develop"}
+: ${photoprism_develop_storagepath="${photoprism_storagepath:-/var/db/photoprism/storage}"}
+: ${photoprism_develop_defaultsyaml="${photoprism_defaultsyaml}"}
+: ${photoprism_develop_auth_mode="${photoprism_auth_mode}"}
+: ${photoprism_develop_face_model="sface"}
+: ${photoprism_develop_args="${photoprism_args}"}
+
+export PHOTOPRISM_AUTH_MODE=${photoprism_develop_auth_mode}
+export PHOTOPRISM_FACE_MODEL=${photoprism_develop_face_model}
+
+pidfile="/var/run/photoprism_develop.pid"
+procname="${photoprism_develop_bin}"
+command="/usr/sbin/daemon"
+command_args="-f -T photoprism -p ${pidfile} -u photoprism ${procname} --defaults-yaml=${photoprism_develop_defaultsyaml} --assets-path=${photoprism_develop_assetspath} --storage-path=${photoprism_develop_storagepath} --originals-path=${photoprism_develop_storagepath}/originals --import-path=${photoprism_develop_storagepath}/import ${photoprism_develop_args} start"
+
+run_rc_command "$1"
