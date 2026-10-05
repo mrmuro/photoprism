@@ -38,7 +38,6 @@ venv
 .system
 /pro/
 /portal/
-/plus/
 /tmp/
 /internal/tmp/
 /internal/zz*

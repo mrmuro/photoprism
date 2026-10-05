@@ -1,0 +1,3 @@
+[submodule "plus"]
+	path = plus
+	url = https://github.com/photoprism/plus.git
