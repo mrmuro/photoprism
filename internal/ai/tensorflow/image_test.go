@@ -1,3 +1,5 @@
+//go:build !notensorflow
+
 package tensorflow
 
 import (

@@ -1,3 +1,5 @@
+//go:build !notensorflow
+
 package face
 
 import (
@@ -11,13 +13,6 @@ import (
 	"github.com/photoprism/photoprism/internal/ai/tensorflow"
 	"github.com/photoprism/photoprism/pkg/fs/fastwalk"
 )
-
-var assetsModelsPath, _ = filepath.Abs("../../../assets/models")
-var modelPath = filepath.Join(assetsModelsPath, "facenet")
-
-// detectorModelPath names the detector a build ships rather than a fixed directory, so the
-// detector-dependent tests keep running against whatever "make dep-models" installs.
-var detectorModelPath = DefaultDetector().Path(assetsModelsPath)
 
 func TestNet(t *testing.T) {
 	prev := UseEngine(nil)

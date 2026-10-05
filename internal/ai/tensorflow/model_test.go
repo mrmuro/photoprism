@@ -1,3 +1,5 @@
+//go:build !notensorflow
+
 package tensorflow
 
 import (
@@ -7,9 +9,6 @@ import (
 
 	"github.com/photoprism/photoprism/pkg/fs"
 )
-
-var assetsPath = fs.Abs("../../../assets")
-var testDataPath = fs.Abs("testdata")
 
 // nasnetModelPath returns the TensorFlow NASNet model directory, or skips the test when the
 // model is not installed.
